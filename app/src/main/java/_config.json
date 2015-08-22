@@ -1,0 +1,13 @@
+{
+    "syntaxVersion": 3,
+    "projectPackageId": "com.yhdista.nanodegree.p2",
+    "authority": "com.yhdista.nanodegree.p2.provider",
+    "providerJavaPackage": "com.yhdista.nanodegree.p2.provider",
+    "providerClassName": "MovieProvider",
+    "sqliteOpenHelperClassName": "MovieSQLiteOpenHelper",
+    "sqliteOpenHelperCallbacksClassName": "MovieSQLiteOpenHelperCallbacks",
+    "databaseFileName": "movie.db",
+    "databaseVersion": 1,
+    "enableForeignKeys": true,
+    "useAnnotations": false
+}

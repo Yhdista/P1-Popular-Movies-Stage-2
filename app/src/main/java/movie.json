@@ -1,0 +1,109 @@
+{
+   "constraints" : [
+      {
+         "definition" : "UNIQUE (movie_id) ON CONFLICT REPLACE",
+         "name" : "unique_name"
+      }
+   ],
+   "documentation" : "A human being which is part of a team.",
+   "fields" : [
+      {
+         "defaultValue" : "0",
+         "documentation" : "Movie identification in themovie.org",
+         "name" : "movie_id",
+         "nullable": false,
+         "type" : "Long"
+      },
+      {
+         "defaultValue" : "false",
+         "documentation" : "Adult movie",
+         "name" : "adult",
+         "nullable": false,
+         "type" : "Boolean"
+      },
+      {
+         "defaultValue" : "/tbhdm8UJAb4ViCTsulYFL3lxMCd.jpg",
+         "documentation" : "Backdrop path",
+         "name" : "backdrop_path",
+         "nullable": false,
+         "type" : "String"
+      },
+      {
+         "defaultValue" : "58;28;2",
+         "documentation" : "Genre ids",
+         "name" : "genre_ids",
+         "nullable": false,
+         "type" : "String"
+      },
+      {
+         "defaultValue" : "en",
+         "documentation" : "Original language",
+         "name" : "original_language",
+         "nullable": false,
+         "type" : "String"
+      },
+      {
+         "defaultValue" : "Mad Max: Fury Road",
+         "documentation" : "Original title",
+         "name" : "original_title",
+         "nullable": false,
+         "type" : "String"
+      },
+      {
+         "defaultValue" : "blabla",
+         "documentation" : "Movie identification in themovie.org",
+         "name" : "overview",
+         "nullable": false,
+         "type" : "String"
+      },
+      {
+         "defaultValue" : "123456789",
+         "documentation" : "Release date",
+         "name" : "release_date",
+         "nullable": false,
+         "type" : "Long"
+      },
+      {
+         "defaultValue" : "/kqjL17yufvn9OVLyXYpvtyrFfak.jpg",
+         "documentation" : "Poster path",
+         "name" : "poster_path",
+         "nullable": false,
+         "type" : "String"
+      },
+      {
+         "defaultValue" : "51.773842",
+         "documentation" : "Popularity",
+         "name" : "popularity",
+         "nullable": false,
+         "type" : "Double"
+      },
+      {
+         "defaultValue" : "Mad Max: Fury Road",
+         "documentation" : "Title",
+         "name" : "title",
+         "nullable": false,
+         "type" : "String"
+      },
+      {
+         "defaultValue" : "false",
+         "documentation" : "Video",
+         "name" : "video",
+         "nullable": false,
+         "type" : "Boolean"
+      },
+      {
+         "defaultValue" : "5.9",
+         "documentation" : "Vote average, rating",
+         "name" : "vote_average",
+         "nullable": false,
+         "type" : "Double"
+      },
+      {
+         "defaultValue" : "83",
+         "documentation" : "Number of votes",
+         "name" : "vote_count",
+         "nullable": false,
+         "type" : "Integer"
+      }
+   ]
+}

@@ -1,0 +1,1 @@
+java -jar android_contentprovider_generator-1.9.3-bundle.jar -i %~dp0 -o %~dp0
