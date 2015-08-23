@@ -150,7 +150,7 @@ public class MoviesGridViewAdapter extends BaseAdapter {
                 height = display.getHeight();
             }
 
-            if (U.getConfiguration() != Configuration.ORIENTATION_PORTRAIT) {
+            if (U.getOrientation() != Configuration.ORIENTATION_PORTRAIT) {
                 // swap numbers!!
                 width = width + height;
                 height = width - height;
@@ -173,7 +173,7 @@ public class MoviesGridViewAdapter extends BaseAdapter {
             setHighlightViewInvisible();
 
             // set Layout params either for portrait or landscape
-            mPicassoView.setLayoutParams((U.getConfiguration() ==
+            mPicassoView.setLayoutParams((U.getOrientation() ==
                     Configuration.ORIENTATION_PORTRAIT) ? PARAMS2_PORTRAIT : PARAMS2_LANDSCAPE);
 
         }

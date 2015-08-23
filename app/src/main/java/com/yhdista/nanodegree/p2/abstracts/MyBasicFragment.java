@@ -10,8 +10,6 @@ import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
-import com.yhdista.nanodegree.p2.utils.L;
-
 
 /**
  * Custom template for general Fragment
@@ -53,7 +51,8 @@ public abstract class MyBasicFragment extends Fragment {
         mActivity = (AppCompatActivity) activity;
         mFragmentManager = mActivity.getSupportFragmentManager();
 
-        L.lifeCycle(this.toString() + " ATTACHED");
+        //L.lifeCycle(0, L.ATTACHED, this.toString());
+
     }
 
     @Override
@@ -74,7 +73,7 @@ public abstract class MyBasicFragment extends Fragment {
         mActivity = null;
         mFragmentManager = null;
 
-        L.lifeCycle(this.toString() + " DETACHED");
+        //L.lifeCycle(0, L.DETACHED, this.toString());
 
     }
 
@@ -82,7 +81,7 @@ public abstract class MyBasicFragment extends Fragment {
     public void onDestroy() {
         super.onDestroy();
 
-        L.lifeCycle(this.toString() + " DESTROYED");
+        //L.lifeCycle(0, L.DESTROYED, this.toString());
 
     }
 

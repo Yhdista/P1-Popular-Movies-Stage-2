@@ -5,7 +5,9 @@
 package com.yhdista.nanodegree.p2.utils;
 
 import android.content.Context;
+import android.content.res.Resources;
 
+import com.yhdista.nanodegree.p2.R;
 import com.yhdista.nanodegree.p2.application.MyApplication;
 
 
@@ -14,6 +16,7 @@ import com.yhdista.nanodegree.p2.application.MyApplication;
  */
 public class U {
 
+    public static final Resources RES = U.getCTX().getResources();
 
 /*
     public static void toggleToolbarProgressBar(int visible) {
@@ -56,8 +59,12 @@ public class U {
      *
      * @return 1 = Portrait, 2 = Landscape
      */
-    public static int getConfiguration() {
-        return U.getCTX().getResources().getConfiguration().orientation;
+    public static int getOrientation() {
+        return RES.getConfiguration().orientation;
+    }
+
+    public static boolean isMultiPane() {
+        return RES.getBoolean(R.bool.multi_pane);
     }
 
 

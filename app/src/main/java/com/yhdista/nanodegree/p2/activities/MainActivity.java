@@ -19,22 +19,21 @@ package com.yhdista.nanodegree.p2.activities;
 import android.os.Bundle;
 
 import com.yhdista.nanodegree.p2.R;
-import com.yhdista.nanodegree.p2.abstracts.MyAppCompatActivity;
+import com.yhdista.nanodegree.p2.abstracts.AbstractMainActivity;
 import com.yhdista.nanodegree.p2.utils.UtilsActivity;
 
 /**
- *  Main Activity as the list (grid) of Movies
+ * Main Activity as the list (grid) of Movies
  */
-public class MainActivity extends MyAppCompatActivity {
+public class MainActivity extends AbstractMainActivity {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+
+
 
         UtilsActivity.setToolbarAsSupportActionBar(this, mToolbar, R.id.my_toolbar);
-
-
     }
 
 

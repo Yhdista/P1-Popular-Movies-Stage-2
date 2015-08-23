@@ -1,9 +1,7 @@
 package com.yhdista.nanodegree.p2.provider.movie;
 
-import java.util.Date;
-
-import android.content.Context;
 import android.content.ContentResolver;
+import android.content.Context;
 import android.database.Cursor;
 import android.net.Uri;
 
@@ -78,43 +76,43 @@ public class MovieSelection extends AbstractSelection<MovieSelection> {
         return orderById(false);
     }
 
-    public MovieSelection movieId(long... value) {
-        addEquals(MovieColumns.MOVIE_ID, toObjectArray(value));
+    public MovieSelection movieOrgId(long... value) {
+        addEquals(MovieColumns.MOVIE_ORG_ID, toObjectArray(value));
         return this;
     }
 
-    public MovieSelection movieIdNot(long... value) {
-        addNotEquals(MovieColumns.MOVIE_ID, toObjectArray(value));
+    public MovieSelection movieOrgIdNot(long... value) {
+        addNotEquals(MovieColumns.MOVIE_ORG_ID, toObjectArray(value));
         return this;
     }
 
-    public MovieSelection movieIdGt(long value) {
-        addGreaterThan(MovieColumns.MOVIE_ID, value);
+    public MovieSelection movieOrgIdGt(long value) {
+        addGreaterThan(MovieColumns.MOVIE_ORG_ID, value);
         return this;
     }
 
-    public MovieSelection movieIdGtEq(long value) {
-        addGreaterThanOrEquals(MovieColumns.MOVIE_ID, value);
+    public MovieSelection movieOrgIdGtEq(long value) {
+        addGreaterThanOrEquals(MovieColumns.MOVIE_ORG_ID, value);
         return this;
     }
 
-    public MovieSelection movieIdLt(long value) {
-        addLessThan(MovieColumns.MOVIE_ID, value);
+    public MovieSelection movieOrgIdLt(long value) {
+        addLessThan(MovieColumns.MOVIE_ORG_ID, value);
         return this;
     }
 
-    public MovieSelection movieIdLtEq(long value) {
-        addLessThanOrEquals(MovieColumns.MOVIE_ID, value);
+    public MovieSelection movieOrgIdLtEq(long value) {
+        addLessThanOrEquals(MovieColumns.MOVIE_ORG_ID, value);
         return this;
     }
 
-    public MovieSelection orderByMovieId(boolean desc) {
-        orderBy(MovieColumns.MOVIE_ID, desc);
+    public MovieSelection orderByMovieOrgId(boolean desc) {
+        orderBy(MovieColumns.MOVIE_ORG_ID, desc);
         return this;
     }
 
-    public MovieSelection orderByMovieId() {
-        orderBy(MovieColumns.MOVIE_ID, false);
+    public MovieSelection orderByMovieOrgId() {
+        orderBy(MovieColumns.MOVIE_ORG_ID, false);
         return this;
     }
 
@@ -585,6 +583,21 @@ public class MovieSelection extends AbstractSelection<MovieSelection> {
 
     public MovieSelection orderByVoteCount() {
         orderBy(MovieColumns.VOTE_COUNT, false);
+        return this;
+    }
+
+    public MovieSelection isFavorite(boolean value) {
+        addEquals(MovieColumns.IS_FAVORITE, toObjectArray(value));
+        return this;
+    }
+
+    public MovieSelection orderByIsFavorite(boolean desc) {
+        orderBy(MovieColumns.IS_FAVORITE, desc);
+        return this;
+    }
+
+    public MovieSelection orderByIsFavorite() {
+        orderBy(MovieColumns.IS_FAVORITE, false);
         return this;
     }
 }

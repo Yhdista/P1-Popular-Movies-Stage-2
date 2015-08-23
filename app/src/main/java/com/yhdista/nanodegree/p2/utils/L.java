@@ -16,15 +16,65 @@ import com.yhdista.nanodegree.p2.constants.C;
  */
 public class L {
 
+    public static final String HELP = "HELP";
+    public static final String LIFECYCLE = "LIFECYCLE";
+
+    public static final String ATTACHED = " ATTACHED";
+    public static final String DESTROYED = " DESTROYED";
+    public static final String DETACHED = " DETACHED";
+    public static final String CREATED = " CREATED";
+    public static final String ACTIVITYCREATED = " ACTIVITY CREATED";
 
     /**
      * Create debug log into LogCat if debugging mod (Lifecycles)
      *
+     * @param tag
      * @param message
      */
-    public static void lifeCycle(String message)
-    {
-        if (C.DEBUG) Log.d("LIFE", message);
+    public static void lifeCycle(int id, String tag, String message) {
+
+
+        switch (id) {
+            case 0:
+                if (C.DEBUG) Log.d(LIFECYCLE, message + tag);
+                break;
+
+            case 1:
+                if (C.DEBUG) Log.i(LIFECYCLE, message + tag);
+                break;
+
+            case 2:
+                if (C.DEBUG) Log.w(LIFECYCLE, message + tag);
+                break;
+
+            case 3:
+                if (C.DEBUG) Log.e(LIFECYCLE, message + tag);
+                break;
+
+            case 4:
+                if (C.DEBUG) Log.v(LIFECYCLE, message + tag);
+                break;
+        }
+
+/*        switch (tag) {
+            case ATTACHED:
+                if (C.DEBUG) Log.d(LIFECYCLE, message + tag);
+                break;
+
+            case CREATED:
+                if (C.DEBUG) Log.i(LIFECYCLE, message + tag);
+                break;
+
+            case DETACHED:
+                if (C.DEBUG) Log.w(LIFECYCLE, message + tag);
+                break;
+
+            case DESTROYED:
+                if (C.DEBUG) Log.e(LIFECYCLE, message + tag);
+                break;
+        }*/
+
+
     }
 
     /**
@@ -34,7 +84,7 @@ public class L {
      */
     public static void m(String message)
     {
-        if (C.DEBUG) Log.d("HELP", message);
+        if (C.DEBUG) Log.d(HELP, message);
     }
 
     /**

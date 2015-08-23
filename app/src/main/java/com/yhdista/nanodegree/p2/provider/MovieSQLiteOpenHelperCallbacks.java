@@ -33,5 +33,9 @@ public class MovieSQLiteOpenHelperCallbacks {
     public void onUpgrade(final Context context, final SQLiteDatabase db, final int oldVersion, final int newVersion) {
         if (BuildConfig.DEBUG) Log.d(TAG, "Upgrading database from version " + oldVersion + " to " + newVersion);
         // Insert your upgrading code here.
+
+        db.delete(MovieSQLiteOpenHelper.SQL_CREATE_TABLE_MOVIE, null, null);
+        db.delete(MovieSQLiteOpenHelper.SQL_CREATE_TABLE_FAVORITE, null, null);
+
     }
 }

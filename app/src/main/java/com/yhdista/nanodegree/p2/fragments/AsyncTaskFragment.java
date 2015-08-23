@@ -15,6 +15,7 @@ import com.yhdista.nanodegree.p2.R;
 import com.yhdista.nanodegree.p2.abstracts.MyBasicDialogFragment;
 import com.yhdista.nanodegree.p2.application.MyApplication;
 import com.yhdista.nanodegree.p2.constants.C;
+import com.yhdista.nanodegree.p2.constants.ConstFragments;
 import com.yhdista.nanodegree.p2.interfaces.AsyncTaskCallbacks;
 import com.yhdista.nanodegree.p2.interfaces.DatasetCallbacks;
 import com.yhdista.nanodegree.p2.interfaces.StartTaskInterface;
@@ -32,13 +33,13 @@ import org.json.JSONObject;
 import java.lang.ref.WeakReference;
 import java.text.ParseException;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 /**
  * Non-UI task fragment for Volley and AsyncTask processes
  */
-public class AsyncTaskFragment extends MyBasicDialogFragment implements AsyncTaskCallbacks<Movie>, StartTaskInterface<JSONObject> {
+public class AsyncTaskFragment extends MyBasicDialogFragment
+        implements AsyncTaskCallbacks<Boolean>, StartTaskInterface<JSONObject> {
 
     private static final String DOWNLOAD_URL =
             "http://api.themoviedb.org/3/discover/movie?sort_by=popularity.desc&api_key=86c8739ce30448eae621740714048022";
@@ -46,8 +47,7 @@ public class AsyncTaskFragment extends MyBasicDialogFragment implements AsyncTas
 
     private WeakReference<MyAsyncTask> mTask;
 
-
-    private DatasetCallbacks<Movie> mCallback;
+    private DatasetCallbacks<Boolean> mCallback;
 
     public static AsyncTaskFragment newRetainedInstance() {
 
@@ -70,7 +70,7 @@ public class AsyncTaskFragment extends MyBasicDialogFragment implements AsyncTas
 
         // TODO is there any way to solve this warning withou supressing it?
         //noinspection unchecked
-        mCallback = (DatasetCallbacks<Movie>) mFragmentManager.findFragmentByTag(C.TAG_FRAGMENT_MAIN);
+        mCallback = (DatasetCallbacks<Boolean>) mFragmentManager.findFragmentByTag(ConstFragments.TAG_FRAGMENT_MAIN);
 
     }
 
@@ -139,9 +139,11 @@ public class AsyncTaskFragment extends MyBasicDialogFragment implements AsyncTas
     }
 
 
+
+
     @Override
-    public void onPostExecute(List<Movie> movies) {
-        mCallback.setData(movies);
+    public void onPostExecute(Boolean b) {
+        mCallback.setData(b);
     }
 
 
@@ -170,14 +172,14 @@ public class AsyncTaskFragment extends MyBasicDialogFragment implements AsyncTas
     /**
      * Custom AsyncTask for downloading xml file and parsing it.
      */
-    private static class MyAsyncTask extends AsyncTask<JSONObject, C.ErrorTag, List<Movie>> {
+    private static class MyAsyncTask extends AsyncTask<JSONObject, C.ErrorTag, Boolean> {
 
         // sleeping millis for debuging purposes
         private static final long MILLIS_FOR_SLEEP = 0;
 
-        final WeakReference<AsyncTaskCallbacks<Movie>> mCallback;
+        final WeakReference<AsyncTaskCallbacks<Boolean>> mCallback;
 
-        MyAsyncTask(AsyncTaskCallbacks<Movie> callback) {
+        MyAsyncTask(AsyncTaskCallbacks<Boolean> callback) {
             mCallback = new WeakReference<>(callback);
         }
 
@@ -190,15 +192,9 @@ public class AsyncTaskFragment extends MyBasicDialogFragment implements AsyncTas
 
         }
 
-        @Override
-        protected List<Movie> doInBackground(JSONObject... params) {
 
-            try {
-                // just a trick to be sure to see progressbar for a moment
-                Thread.sleep(500);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
+        @Override
+        protected Boolean doInBackground(JSONObject... params) {
 
             Movie movie;
             List<Movie> movies = new ArrayList<>();
@@ -206,6 +202,7 @@ public class AsyncTaskFragment extends MyBasicDialogFragment implements AsyncTas
             JSONObject jsonObject = params[0];
             JSONArray jsonArray;
             try {
+
                 jsonArray = jsonObject.getJSONArray("results");
                 final int arrayLength = jsonArray.length();
                 for (int i = 0; i < arrayLength; i++) {
@@ -213,7 +210,8 @@ public class AsyncTaskFragment extends MyBasicDialogFragment implements AsyncTas
                     JSONObject item = (JSONObject) jsonArray.get(i);
 
                     MovieContentValues values = new MovieContentValues();
-                    values.putMovieId(item.getLong("id"));
+
+                    values.putMovieOrgId(item.getLong("id"));
                     values.putAdult(item.getBoolean(MovieColumns.ADULT));
                     values.putBackdropPath(item.getString(MovieColumns.BACKDROP_PATH));
                     values.putGenreIds(item.getString(MovieColumns.GENRE_IDS));
@@ -231,6 +229,7 @@ public class AsyncTaskFragment extends MyBasicDialogFragment implements AsyncTas
 
                     U.getCTX().getContentResolver().insert(MovieColumns.CONTENT_URI, values.values());
 
+
 /*
                     movie = new Movie.Builder(item.getString(Movie.TAG_TITLE),
                             item.getString(Movie.TAG_POSTER_PATH))
@@ -244,16 +243,17 @@ public class AsyncTaskFragment extends MyBasicDialogFragment implements AsyncTas
 
                 }
 
-                return movies;
+                return true;
 
             } catch (ParseException | JSONException e) {
                 publishProgress(C.ErrorTag.XML_PARSE_EXCEPTION);
                 e.printStackTrace();
             }
 
-            return Collections.emptyList();
+            return false;
 
         }
+
 
         @Override
         protected void onProgressUpdate(C.ErrorTag... values) {
@@ -262,13 +262,15 @@ public class AsyncTaskFragment extends MyBasicDialogFragment implements AsyncTas
             }
         }
 
+
         @Override
-        protected void onPostExecute(List<Movie> movies) {
+        protected void onPostExecute(Boolean b) {
             if (mCallback.get() != null) {
-                mCallback.get().onPostExecute(movies);
+                mCallback.get().onPostExecute(b);
             }
 
         }
+
 
         @Override
         protected void onCancelled() {

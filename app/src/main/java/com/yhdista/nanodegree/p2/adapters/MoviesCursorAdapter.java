@@ -8,6 +8,7 @@ import android.graphics.Point;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
+import android.support.v4.app.Fragment;
 import android.support.v4.widget.CursorAdapter;
 import android.view.Display;
 import android.view.LayoutInflater;
@@ -23,19 +24,17 @@ import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Target;
 import com.yhdista.nanodegree.p2.R;
 import com.yhdista.nanodegree.p2.constants.C;
+import com.yhdista.nanodegree.p2.fragments.MainFragment;
 import com.yhdista.nanodegree.p2.oodesign.Movie;
 import com.yhdista.nanodegree.p2.provider.movie.MovieColumns;
 import com.yhdista.nanodegree.p2.utils.U;
 import com.yhdista.nanodegree.p2.utils.UtilsDate;
-
-import java.util.List;
+import com.yhdista.nanodegree.p2.utils.UtilsMath;
 
 /**
  * Created by Yhdista on 21.8.2015.
  */
 public class MoviesCursorAdapter extends CursorAdapter {
-
-    private List<Movie> mDataset;
 
     // position of selected item (after OnItemClicked) which is highlighted
     // default value is -1 which is non-existing position
@@ -44,20 +43,13 @@ public class MoviesCursorAdapter extends CursorAdapter {
 
     private ViewHolder mHolder;
 
+    private static Fragment sFragment;
 
-    public MoviesCursorAdapter(Cursor cursor) {
+    public MoviesCursorAdapter(Cursor cursor, Fragment fragment) {
         super(U.getCTX(), cursor, 0);
+        sFragment = fragment;
     }
 
-
-    /**
-     * For change dataset of the Adapter
-     *
-     * @param dataset
-     */
-    public void setDataset(List<Movie> dataset) {
-        mDataset = dataset;
-    }
 
 
     /**
@@ -72,12 +64,17 @@ public class MoviesCursorAdapter extends CursorAdapter {
 
     public Movie getMovie(int position) {
         Cursor c = getCursor();
+        c.moveToPosition(position);
+
         Movie movie = new Movie.Builder(c.getString(c.getColumnIndex(MovieColumns.TITLE)),
                 c.getString(c.getColumnIndex(MovieColumns.POSTER_PATH)))
                 .setOverview(c.getString(c.getColumnIndex(MovieColumns.OVERVIEW)))
                 .setVoteAverage(c.getDouble(c.getColumnIndex(MovieColumns.VOTE_AVERAGE)))
                 .setReleaseDate(UtilsDate.getDateFromMillis(c.getLong(c.getColumnIndex(MovieColumns.RELEASE_DATE))))
                 .setPopularity(c.getDouble(c.getColumnIndex(MovieColumns.POPULARITY)))
+                .set_id(c.getLong(c.getColumnIndex(MovieColumns._ID)))
+                .setIsFavorite(UtilsMath.convertInteger2Boolean(
+                        c.getInt(c.getColumnIndex(MovieColumns.IS_FAVORITE))))
                 .build();
         return movie;
     }
@@ -117,6 +114,15 @@ public class MoviesCursorAdapter extends CursorAdapter {
 
     }
 
+    public void setCallback(Fragment fragment) {
+        sFragment = fragment;
+    }
+
+
+    public void clean() {
+        sFragment = null;
+    }
+
 
     // Provide a reference to the views for each data item
     // Complex data items may need more than one view per item, and
@@ -130,10 +136,10 @@ public class MoviesCursorAdapter extends CursorAdapter {
         private final View mHighLightView;
 
         // Layout params for Portrait/Landscape & 2/3 column configuration of FrameLayout
-        private static final AbsListView.LayoutParams PARAMS2_PORTRAIT;
-        private static final AbsListView.LayoutParams PARAMS3_PORTRAIT;
-        private static final AbsListView.LayoutParams PARAMS2_LANDSCAPE;
-        private static final AbsListView.LayoutParams PARAMS3_LANDSCAPE;
+        private static AbsListView.LayoutParams PARAMS2_PORTRAIT;
+        private static  AbsListView.LayoutParams PARAMS3_PORTRAIT;
+        private static  AbsListView.LayoutParams PARAMS2_LANDSCAPE;
+        private static  AbsListView.LayoutParams PARAMS3_LANDSCAPE;
 
         static {
 
@@ -154,7 +160,8 @@ public class MoviesCursorAdapter extends CursorAdapter {
                 height = display.getHeight();
             }
 
-            if (U.getConfiguration() != Configuration.ORIENTATION_PORTRAIT) {
+
+            if (U.getOrientation() != Configuration.ORIENTATION_PORTRAIT) {
                 // swap numbers!!
                 width = width + height;
                 height = width - height;
@@ -176,9 +183,37 @@ public class MoviesCursorAdapter extends CursorAdapter {
 
             setHighlightViewInvisible();
 
-            // set Layout params either for portrait or landscape
-            mPicassoView.setLayoutParams((U.getConfiguration() ==
-                    Configuration.ORIENTATION_PORTRAIT) ? PARAMS2_PORTRAIT : PARAMS2_LANDSCAPE);
+            if (U.isMultiPane()) {
+                if (sFragment != null) {
+                    int width = sFragment.getView().getWidth();
+                    int height = sFragment.getView().getHeight();
+                    if (U.getOrientation() != Configuration.ORIENTATION_PORTRAIT) {
+                        // swap numbers!!
+                        width = width + height;
+                        height = width - height;
+                        width = width - height;
+                    }
+                    PARAMS2_PORTRAIT = new AbsListView.LayoutParams(width / 2, (int) (1.5 * width / 2));
+                    PARAMS3_PORTRAIT = new AbsListView.LayoutParams(width / 3, (int) (1.5 * width / 3));
+                    PARAMS2_LANDSCAPE = new AbsListView.LayoutParams(height / 2, (int) (1.5 * height / 2));
+                    PARAMS3_LANDSCAPE = new AbsListView.LayoutParams(height / 3, (int) (1.5 * height / 3));
+                    //sFragment = null;
+
+                    // set Layout params either for portrait or landscape
+                    mPicassoView.setLayoutParams((U.getOrientation() ==
+                            Configuration.ORIENTATION_PORTRAIT) ? PARAMS2_PORTRAIT : PARAMS3_LANDSCAPE);
+
+                }
+
+            } else {
+
+                // set Layout params either for portrait or landscape
+                mPicassoView.setLayoutParams((U.getOrientation() ==
+                        Configuration.ORIENTATION_PORTRAIT) ? PARAMS2_PORTRAIT : PARAMS2_LANDSCAPE);
+
+            }
+
+
 
         }
 

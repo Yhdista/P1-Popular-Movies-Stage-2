@@ -3,6 +3,8 @@
     android:id="@+id/grid_view"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:clickable="true"
     android:scrollbars="vertical"
-     tools:context=".MainActivityFragment"
-    android:clickable="true" />
+    tools:context=".MainFragment"
+    android:numColumns="@integer/num_columns"
+    />

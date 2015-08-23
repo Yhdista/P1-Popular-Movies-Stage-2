@@ -1,7 +1,5 @@
 package com.yhdista.nanodegree.p2.provider;
 
-import java.util.Arrays;
-
 import android.content.ContentValues;
 import android.content.UriMatcher;
 import android.database.Cursor;
@@ -11,7 +9,10 @@ import android.util.Log;
 
 import com.yhdista.nanodegree.p2.BuildConfig;
 import com.yhdista.nanodegree.p2.provider.base.BaseContentProvider;
+import com.yhdista.nanodegree.p2.provider.favorite.FavoriteColumns;
 import com.yhdista.nanodegree.p2.provider.movie.MovieColumns;
+
+import java.util.Arrays;
 
 public class MovieProvider extends BaseContentProvider {
     private static final String TAG = MovieProvider.class.getSimpleName();
@@ -24,14 +25,19 @@ public class MovieProvider extends BaseContentProvider {
     public static final String AUTHORITY = "com.yhdista.nanodegree.p2.provider";
     public static final String CONTENT_URI_BASE = "content://" + AUTHORITY;
 
-    private static final int URI_TYPE_MOVIE = 0;
-    private static final int URI_TYPE_MOVIE_ID = 1;
+    private static final int URI_TYPE_FAVORITE = 0;
+    private static final int URI_TYPE_FAVORITE_ID = 1;
+
+    private static final int URI_TYPE_MOVIE = 2;
+    private static final int URI_TYPE_MOVIE_ID = 3;
 
 
 
     private static final UriMatcher URI_MATCHER = new UriMatcher(UriMatcher.NO_MATCH);
 
     static {
+        URI_MATCHER.addURI(AUTHORITY, FavoriteColumns.TABLE_NAME, URI_TYPE_FAVORITE);
+        URI_MATCHER.addURI(AUTHORITY, FavoriteColumns.TABLE_NAME + "/#", URI_TYPE_FAVORITE_ID);
         URI_MATCHER.addURI(AUTHORITY, MovieColumns.TABLE_NAME, URI_TYPE_MOVIE);
         URI_MATCHER.addURI(AUTHORITY, MovieColumns.TABLE_NAME + "/#", URI_TYPE_MOVIE_ID);
     }
@@ -50,6 +56,11 @@ public class MovieProvider extends BaseContentProvider {
     public String getType(Uri uri) {
         int match = URI_MATCHER.match(uri);
         switch (match) {
+            case URI_TYPE_FAVORITE:
+                return TYPE_CURSOR_DIR + FavoriteColumns.TABLE_NAME;
+            case URI_TYPE_FAVORITE_ID:
+                return TYPE_CURSOR_ITEM + FavoriteColumns.TABLE_NAME;
+
             case URI_TYPE_MOVIE:
                 return TYPE_CURSOR_DIR + MovieColumns.TABLE_NAME;
             case URI_TYPE_MOVIE_ID:
@@ -97,6 +108,17 @@ public class MovieProvider extends BaseContentProvider {
         String id = null;
         int matchedId = URI_MATCHER.match(uri);
         switch (matchedId) {
+            case URI_TYPE_FAVORITE:
+            case URI_TYPE_FAVORITE_ID:
+                res.table = FavoriteColumns.TABLE_NAME;
+                res.idColumn = FavoriteColumns._ID;
+                res.tablesWithJoins = FavoriteColumns.TABLE_NAME;
+                if (MovieColumns.hasColumns(projection)) {
+                    res.tablesWithJoins += " LEFT OUTER JOIN " + MovieColumns.TABLE_NAME + " AS " + FavoriteColumns.PREFIX_MOVIE + " ON " + FavoriteColumns.TABLE_NAME + "." + FavoriteColumns.MOVIE_ID + "=" + FavoriteColumns.PREFIX_MOVIE + "." + MovieColumns._ID;
+                }
+                res.orderBy = FavoriteColumns.DEFAULT_ORDER;
+                break;
+
             case URI_TYPE_MOVIE:
             case URI_TYPE_MOVIE_ID:
                 res.table = MovieColumns.TABLE_NAME;
@@ -110,6 +132,7 @@ public class MovieProvider extends BaseContentProvider {
         }
 
         switch (matchedId) {
+            case URI_TYPE_FAVORITE_ID:
             case URI_TYPE_MOVIE_ID:
                 id = uri.getLastPathSegment();
         }

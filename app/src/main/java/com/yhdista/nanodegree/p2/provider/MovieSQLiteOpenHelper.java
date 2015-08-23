@@ -10,6 +10,7 @@ import android.os.Build;
 import android.util.Log;
 
 import com.yhdista.nanodegree.p2.BuildConfig;
+import com.yhdista.nanodegree.p2.provider.favorite.FavoriteColumns;
 import com.yhdista.nanodegree.p2.provider.movie.MovieColumns;
 
 public class MovieSQLiteOpenHelper extends SQLiteOpenHelper {
@@ -22,10 +23,18 @@ public class MovieSQLiteOpenHelper extends SQLiteOpenHelper {
     private final MovieSQLiteOpenHelperCallbacks mOpenHelperCallbacks;
 
     // @formatter:off
+    public static final String SQL_CREATE_TABLE_FAVORITE = "CREATE TABLE IF NOT EXISTS "
+            + FavoriteColumns.TABLE_NAME + " ( "
+            + FavoriteColumns._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
+            + FavoriteColumns.MOVIE_ID + " INTEGER NOT NULL "
+            + ", CONSTRAINT fk_movie_id FOREIGN KEY (" + FavoriteColumns.MOVIE_ID + ") REFERENCES movie (_id) ON DELETE CASCADE"
+            + ", CONSTRAINT unique_name UNIQUE (movie_id) ON CONFLICT REPLACE"
+            + " );";
+
     public static final String SQL_CREATE_TABLE_MOVIE = "CREATE TABLE IF NOT EXISTS "
             + MovieColumns.TABLE_NAME + " ( "
             + MovieColumns._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
-            + MovieColumns.MOVIE_ID + " INTEGER NOT NULL DEFAULT 0, "
+            + MovieColumns.MOVIE_ORG_ID + " INTEGER NOT NULL DEFAULT 0, "
             + MovieColumns.ADULT + " INTEGER NOT NULL DEFAULT 0, "
             + MovieColumns.BACKDROP_PATH + " TEXT NOT NULL DEFAULT '/tbhdm8UJAb4ViCTsulYFL3lxMCd.jpg', "
             + MovieColumns.GENRE_IDS + " TEXT NOT NULL DEFAULT '58;28;2', "
@@ -38,8 +47,9 @@ public class MovieSQLiteOpenHelper extends SQLiteOpenHelper {
             + MovieColumns.TITLE + " TEXT NOT NULL DEFAULT 'Mad Max: Fury Road', "
             + MovieColumns.VIDEO + " INTEGER NOT NULL DEFAULT 0, "
             + MovieColumns.VOTE_AVERAGE + " REAL NOT NULL DEFAULT 5.9, "
-            + MovieColumns.VOTE_COUNT + " INTEGER NOT NULL DEFAULT 83 "
-            + ", CONSTRAINT unique_name UNIQUE (movie_id) ON CONFLICT REPLACE"
+            + MovieColumns.VOTE_COUNT + " INTEGER NOT NULL DEFAULT 83, "
+            + MovieColumns.IS_FAVORITE + " INTEGER NOT NULL DEFAULT 0 "
+            + ", CONSTRAINT unique_name UNIQUE (movie_org_id) ON CONFLICT IGNORE"
             + " );";
 
     // @formatter:on
@@ -96,6 +106,7 @@ public class MovieSQLiteOpenHelper extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
         if (BuildConfig.DEBUG) Log.d(TAG, "onCreate");
         mOpenHelperCallbacks.onPreCreate(mContext, db);
+        db.execSQL(SQL_CREATE_TABLE_FAVORITE);
         db.execSQL(SQL_CREATE_TABLE_MOVIE);
         mOpenHelperCallbacks.onPostCreate(mContext, db);
     }

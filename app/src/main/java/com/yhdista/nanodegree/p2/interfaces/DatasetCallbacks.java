@@ -1,13 +1,11 @@
 package com.yhdista.nanodegree.p2.interfaces;
 
-import java.util.List;
-
 /**
  * MainFragment callbacks
  */
-public interface DatasetCallbacks<E> {
+public interface DatasetCallbacks<T> {
 
-    void setData(List<E> elements);
+    void setData(T t);
 
     void sortBy(int which);
 

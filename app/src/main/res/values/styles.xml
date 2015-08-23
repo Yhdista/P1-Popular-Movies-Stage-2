@@ -4,6 +4,7 @@
     <style name="AppTheme" parent="@style/Theme.AppCompat.Light.NoActionBar">
         <!-- Customize your theme here. -->
 
+
     </style>
 
     <style name="TitleViewDetail">
@@ -16,6 +17,14 @@
         <item name="android:textAppearance">?android:attr/textAppearanceLarge</item>
         <item name="android:textColor">#ffffffff</item>
         <item name="android:textSize">36sp</item>
+    </style>
+
+    <!-- Base application theme. -->
+    <style name="AppTheme3" parent="Widget.AppCompat.Toolbar">
+        <!-- Customize your theme here. -->
+        <item name="android:actionOverflowMenuStyle">@drawable/ab_item_background</item>
+        <item name="actionBarItemBackground">@drawable/ab_item_background</item>
+
     </style>
 
 

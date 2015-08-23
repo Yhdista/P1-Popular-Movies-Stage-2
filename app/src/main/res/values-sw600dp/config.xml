@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <bool name="multi_pane">true</bool>
+
+    <integer name="num_columns">2</integer>
+
+    <integer name="main_layout_weight">1</integer>
+    <integer name="detail_layout_weight">2</integer>
+
+</resources>

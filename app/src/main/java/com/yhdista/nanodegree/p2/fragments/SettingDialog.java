@@ -8,7 +8,7 @@ import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
 
 import com.yhdista.nanodegree.p2.abstracts.MyBasicDialogFragment;
-import com.yhdista.nanodegree.p2.constants.C;
+import com.yhdista.nanodegree.p2.constants.ConstFragments;
 import com.yhdista.nanodegree.p2.interfaces.DatasetCallbacks;
 import com.yhdista.nanodegree.p2.oodesign.SortItems;
 
@@ -48,7 +48,7 @@ public class SettingDialog extends MyBasicDialogFragment {
         dialog.setItems(SortItems.getSortItemsNames(), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                ((DatasetCallbacks) mFragmentManager.findFragmentByTag(C.TAG_FRAGMENT_MAIN)).sortBy(which + 1);
+                ((DatasetCallbacks) mFragmentManager.findFragmentByTag(ConstFragments.TAG_FRAGMENT_MAIN)).sortBy(which + 1);
             }
         });
 

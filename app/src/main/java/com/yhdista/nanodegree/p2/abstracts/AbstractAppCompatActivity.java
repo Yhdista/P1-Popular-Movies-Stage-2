@@ -13,13 +13,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 
-import com.yhdista.nanodegree.p2.application.MyApplication;
+import com.yhdista.nanodegree.p2.utils.L;
 
 
 /**
  * Custom template for general compat Activity
  */
-public abstract class MyAppCompatActivity extends AppCompatActivity {
+public abstract class AbstractAppCompatActivity extends AppCompatActivity {
 
     protected FragmentManager mFragmentManager;
 
@@ -32,6 +32,11 @@ public abstract class MyAppCompatActivity extends AppCompatActivity {
         //setStrictMode();
 
         super.onCreate(savedInstanceState);
+
+        mFragmentManager = getSupportFragmentManager();
+
+        L.lifeCycle(1, L.CREATED, this.toString());
+
 
     }
 
@@ -48,14 +53,6 @@ public abstract class MyAppCompatActivity extends AppCompatActivity {
     }
 
 
-    @Override
-    public void onBackPressed() {
-
-        // cancel Volley request, otherwise memory leaks
-        MyApplication.getInstance().cancelVolleyRequest();
-
-        super.onBackPressed();
-    }
 
 
 
@@ -67,6 +64,7 @@ public abstract class MyAppCompatActivity extends AppCompatActivity {
         System.gc();
         super.onDestroy();
 
+        L.lifeCycle(1, L.DESTROYED, this.toString());
 
     }
 

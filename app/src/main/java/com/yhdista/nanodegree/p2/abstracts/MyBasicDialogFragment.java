@@ -79,7 +79,7 @@ public abstract class MyBasicDialogFragment extends DialogFragment {
         mActivity = (AppCompatActivity) activity;
         mFragmentManager = mActivity.getSupportFragmentManager();
 
-        L.lifeCycle(this.toString() + " ATTACHED");
+        L.lifeCycle(0, L.ATTACHED, this.toString());
     }
 
     @Override
@@ -112,7 +112,7 @@ public abstract class MyBasicDialogFragment extends DialogFragment {
         mActivity = null;
         mFragmentManager = null;
 
-        L.lifeCycle(this.toString() + " DETACHED");
+        L.lifeCycle(0, L.DETACHED, this.toString());
 
     }
 
@@ -120,7 +120,7 @@ public abstract class MyBasicDialogFragment extends DialogFragment {
     public void onDestroy() {
         super.onDestroy();
 
-        L.lifeCycle(this.toString() + " DESTROYED");
+        L.lifeCycle(0, L.DESTROYED, this.toString());
 
     }
 

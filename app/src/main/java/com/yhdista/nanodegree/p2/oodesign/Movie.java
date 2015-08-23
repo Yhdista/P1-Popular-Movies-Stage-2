@@ -7,6 +7,7 @@ package com.yhdista.nanodegree.p2.oodesign;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.yhdista.nanodegree.p2.provider.movie.MovieModel;
 import com.yhdista.nanodegree.p2.utils.UtilsDate;
 import com.yhdista.nanodegree.p2.utils.UtilsMath;
 
@@ -16,7 +17,7 @@ import java.util.Date;
  * Design of Movie element
  * Object is Parcelable because of Intent transaction
  */
-public class Movie implements Parcelable {
+public class Movie implements MovieModel, Parcelable {
 
     public static final String RELEASE_DATE_FORMAT = "yyyy-mm-dd";
 
@@ -35,7 +36,11 @@ public class Movie implements Parcelable {
     public static final String TAG_VOTE_AVERAGE = "vote_average";
     public static final String TAG_VOTE_COUNT = "vote_count";
 
-    private long mMovieId;                   // id	:	102899
+    private long m_Id;
+    private boolean mIsFavorite;
+
+
+    private long mMovieOrgId;                   // id	:	102899
     private boolean mAdult;             // adult	:	false
     private String mBackdropPath;       // backdrop_path	:	/kvXLZqY0Ngl1XSw7EaMQO0C1CCj.jpg
     private String mGenreIds;
@@ -59,7 +64,10 @@ public class Movie implements Parcelable {
 
     private Movie(Builder builder) {
 
-        mMovieId = builder.mMovieId;
+        m_Id = builder.m_Id;
+        mIsFavorite = builder.mIsFavorite;
+
+        mMovieOrgId = builder.mMovieId;
         mAdult = builder.mAdult;
         mBackdropPath = builder.mBackdropPath;
         mGenreIds = builder.mGenreIds;
@@ -74,12 +82,13 @@ public class Movie implements Parcelable {
         mVoteAverage = builder.mVoteAverage;
         mVoteCount = builder.mVoteCount;
 
-
     }
 
 
     protected Movie(Parcel in) {
-        mMovieId = in.readLong();
+        m_Id = in.readLong();
+        mIsFavorite = UtilsMath.convertInteger2Boolean(in.readInt());
+        mMovieOrgId = in.readLong();
         mAdult = UtilsMath.convertInteger2Boolean(in.readInt());
         mBackdropPath = in.readString();
         mGenreIds = in.readString();
@@ -98,7 +107,9 @@ public class Movie implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeLong(mMovieId);
+        dest.writeLong(m_Id);
+        dest.writeInt(UtilsMath.convertBoolean2Integer(mIsFavorite));
+        dest.writeLong(mMovieOrgId);
         dest.writeInt(UtilsMath.convertBoolean2Integer(mAdult));
         dest.writeString(mBackdropPath);
         dest.writeString(mGenreIds);
@@ -131,16 +142,74 @@ public class Movie implements Parcelable {
         }
     };
 
+    public long get_id() {
+        return m_Id;
+    }
+
+    public boolean getIsFavorite() {
+        return mIsFavorite;
+    }
+
     public String getTitle() {
         return mTitle;
+    }
+
+    @Override
+    public boolean getVideo() {
+        return mVideo;
+    }
+
+    @Override
+    public double getVoteAverage() {
+        return mVoteAverage;
+    }
+
+    @Override
+    public int getVoteCount() {
+        return mVoteCount;
     }
 
     public String getPosterPath() {
         return mPosterPath;
     }
 
+    @Override
+    public long getMovieOrgId() {
+        return mMovieOrgId;
+    }
+
+    @Override
+    public boolean getAdult() {
+        return mAdult;
+    }
+
+    @Override
+    public String getBackdropPath() {
+        return mBackdropPath;
+    }
+
+    @Override
+    public String getGenreIds() {
+        return mGenreIds;
+    }
+
+    @Override
+    public String getOriginalLanguage() {
+        return mOriginalLanguage;
+    }
+
+    @Override
+    public String getOriginalTitle() {
+        return mOriginalTitle;
+    }
+
     public String getOverview() {
         return mOverview;
+    }
+
+    @Override
+    public long getReleaseDate() {
+        return getReleaseDateInMillis();
     }
 
     public double getUserRating() {
@@ -165,6 +234,9 @@ public class Movie implements Parcelable {
      */
     public static class Builder {
 
+        private long m_Id;
+        private boolean mIsFavorite;
+
         private long mMovieId;
         private boolean mAdult;
         private String mBackdropPath;
@@ -179,6 +251,7 @@ public class Movie implements Parcelable {
         public boolean mVideo;
         private double mVoteAverage;
         public int mVoteCount;
+
 
 
         /**
@@ -252,9 +325,20 @@ public class Movie implements Parcelable {
             return this;
         }
 
+        public Builder set_id(long _id) {
+            m_Id = _id;
+            return this;
+        }
+
+        public Builder setIsFavorite(boolean b) {
+            mIsFavorite = b;
+            return this;
+        }
+
         public Movie build() {
             return new Movie(this);
         }
+
 
     }
 

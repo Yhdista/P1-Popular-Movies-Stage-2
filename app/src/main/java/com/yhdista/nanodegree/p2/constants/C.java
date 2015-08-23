@@ -4,7 +4,10 @@
 
 package com.yhdista.nanodegree.p2.constants;
 
+import android.content.res.Resources;
+
 import com.yhdista.nanodegree.p2.BuildConfig;
+import com.yhdista.nanodegree.p2.utils.U;
 
 /**
  * Class of constants.
@@ -14,11 +17,10 @@ public class C {
     // if DEBUG
     public static final boolean DEBUG = BuildConfig.DEBUG;
 
-    // fragments
-    public static final String TAG_FRAGMENT_PROGRESS_DIALOG = "activityProgressDialog";
-    public static final String TAG_FRAGMENT_ASYNC_TASK = "fragmentAsyncTask";
-    public static final String TAG_FRAGMENT_MAIN = "fragmentMainActivity";
-    public static final String TAG_FRAGMENT_SETTING_DIALOG = "fragmentSettingDialog" ;
+    public static final Resources RES = U.getCTX().getResources();
+
+    //public  static final boolean IS_MULTI_PANE = RES.getBoolean(R.bool.multi_pane);
+
 
     // exceptions
     public enum ErrorTag {XML_PARSE_EXCEPTION, GENERIC_EXCEPTION, UNKNOWN_HOST_EXCEPTION}
@@ -26,6 +28,8 @@ public class C {
     // tags for bundle arguments
     public static final String TAG_BUNDLE_MOVIES = "movies";
     public static final String TAG_BUNDLE_MOVIE = "movie";
+    public static final String TAG_BUNDLE_IS_FAVORITE = "isFavorite";
+    public static final String TAG_BUNDLE_SORT_BY = "sortBy";
 
     // base URL for themoviedb.org API
     public static final String MOVIEDB_AUTHORITY_URL = "http://image.tmdb.org/t/p/";

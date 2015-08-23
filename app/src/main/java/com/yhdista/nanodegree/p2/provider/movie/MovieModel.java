@@ -12,7 +12,7 @@ public interface MovieModel extends BaseModel {
     /**
      * Movie identification in themovie.org
      */
-    long getMovieId();
+    long getMovieOrgId();
 
     /**
      * Adult movie
@@ -85,4 +85,9 @@ public interface MovieModel extends BaseModel {
      * Number of votes
      */
     int getVoteCount();
+
+    /**
+     * Is favorite in local database
+     */
+    boolean getIsFavorite();
 }

@@ -6,14 +6,16 @@ package com.yhdista.nanodegree.p2.interfaces;
 
 import com.yhdista.nanodegree.p2.constants.C;
 
+import java.util.List;
+
 /**
  * AsyncTask callback with Element result
  */
-public interface AsyncTaskCallbacks<T> {
+public interface AsyncTaskCallbacks2<E> {
 
     void onPreExecute();
 
-    void onPostExecute(T t);
+    void onPostExecute(List<E> elements);
 
     void onCancelled();
 

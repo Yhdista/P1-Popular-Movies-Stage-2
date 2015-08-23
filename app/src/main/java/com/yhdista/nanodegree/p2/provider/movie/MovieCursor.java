@@ -1,7 +1,5 @@
 package com.yhdista.nanodegree.p2.provider.movie;
 
-import java.util.Date;
-
 import android.database.Cursor;
 
 import com.yhdista.nanodegree.p2.provider.base.AbstractCursor;
@@ -27,10 +25,10 @@ public class MovieCursor extends AbstractCursor implements MovieModel {
     /**
      * Movie identification in themovie.org
      */
-    public long getMovieId() {
-        Long res = getLongOrNull(MovieColumns.MOVIE_ID);
+    public long getMovieOrgId() {
+        Long res = getLongOrNull(MovieColumns.MOVIE_ORG_ID);
         if (res == null)
-            throw new NullPointerException("The value of 'movie_id' in the database was null, which is not allowed according to the model definition");
+            throw new NullPointerException("The value of 'movie_org_id' in the database was null, which is not allowed according to the model definition");
         return res;
     }
 
@@ -168,6 +166,16 @@ public class MovieCursor extends AbstractCursor implements MovieModel {
         Integer res = getIntegerOrNull(MovieColumns.VOTE_COUNT);
         if (res == null)
             throw new NullPointerException("The value of 'vote_count' in the database was null, which is not allowed according to the model definition");
+        return res;
+    }
+
+    /**
+     * Is favorite in local database
+     */
+    public boolean getIsFavorite() {
+        Boolean res = getBooleanOrNull(MovieColumns.IS_FAVORITE);
+        if (res == null)
+            throw new NullPointerException("The value of 'is_favorite' in the database was null, which is not allowed according to the model definition");
         return res;
     }
 }

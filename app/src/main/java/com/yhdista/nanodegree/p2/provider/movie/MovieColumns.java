@@ -4,7 +4,6 @@ import android.net.Uri;
 import android.provider.BaseColumns;
 
 import com.yhdista.nanodegree.p2.provider.MovieProvider;
-import com.yhdista.nanodegree.p2.provider.movie.MovieColumns;
 
 /**
  * A human being which is part of a team.
@@ -21,7 +20,7 @@ public class MovieColumns implements BaseColumns {
     /**
      * Movie identification in themovie.org
      */
-    public static final String MOVIE_ID = "movie_id";
+    public static final String MOVIE_ORG_ID = "movie_org_id";
 
     /**
      * Adult movie
@@ -88,13 +87,18 @@ public class MovieColumns implements BaseColumns {
      */
     public static final String VOTE_COUNT = "vote_count";
 
+    /**
+     * Is favorite in local database
+     */
+    public static final String IS_FAVORITE = "is_favorite";
+
 
     public static final String DEFAULT_ORDER = TABLE_NAME + "." +_ID;
 
     // @formatter:off
     public static final String[] ALL_COLUMNS = new String[] {
             _ID,
-            MOVIE_ID,
+            MOVIE_ORG_ID,
             ADULT,
             BACKDROP_PATH,
             GENRE_IDS,
@@ -107,14 +111,15 @@ public class MovieColumns implements BaseColumns {
             TITLE,
             VIDEO,
             VOTE_AVERAGE,
-            VOTE_COUNT
+            VOTE_COUNT,
+            IS_FAVORITE
     };
     // @formatter:on
 
     public static boolean hasColumns(String[] projection) {
         if (projection == null) return true;
         for (String c : projection) {
-            if (c.equals(MOVIE_ID) || c.contains("." + MOVIE_ID)) return true;
+            if (c.equals(MOVIE_ORG_ID) || c.contains("." + MOVIE_ORG_ID)) return true;
             if (c.equals(ADULT) || c.contains("." + ADULT)) return true;
             if (c.equals(BACKDROP_PATH) || c.contains("." + BACKDROP_PATH)) return true;
             if (c.equals(GENRE_IDS) || c.contains("." + GENRE_IDS)) return true;
@@ -128,6 +133,7 @@ public class MovieColumns implements BaseColumns {
             if (c.equals(VIDEO) || c.contains("." + VIDEO)) return true;
             if (c.equals(VOTE_AVERAGE) || c.contains("." + VOTE_AVERAGE)) return true;
             if (c.equals(VOTE_COUNT) || c.contains("." + VOTE_COUNT)) return true;
+            if (c.equals(IS_FAVORITE) || c.contains("." + IS_FAVORITE)) return true;
         }
         return false;
     }

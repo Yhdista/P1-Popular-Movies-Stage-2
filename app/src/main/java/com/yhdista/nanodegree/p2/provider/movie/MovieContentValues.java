@@ -40,8 +40,8 @@ public class MovieContentValues extends AbstractContentValues {
     /**
      * Movie identification in themovie.org
      */
-    public MovieContentValues putMovieId(long value) {
-        mContentValues.put(MovieColumns.MOVIE_ID, value);
+    public MovieContentValues putMovieOrgId(long value) {
+        mContentValues.put(MovieColumns.MOVIE_ORG_ID, value);
         return this;
     }
 
@@ -166,6 +166,15 @@ public class MovieContentValues extends AbstractContentValues {
      */
     public MovieContentValues putVoteCount(int value) {
         mContentValues.put(MovieColumns.VOTE_COUNT, value);
+        return this;
+    }
+
+
+    /**
+     * Is favorite in local database
+     */
+    public MovieContentValues putIsFavorite(boolean value) {
+        mContentValues.put(MovieColumns.IS_FAVORITE, value);
         return this;
     }
 

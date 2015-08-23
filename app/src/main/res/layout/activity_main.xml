@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
+
 
     <include
         android:id="@+id/my_toolbar"
@@ -9,8 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
-    <fragment xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:tools="http://schemas.android.com/tools"
+    <fragment
         android:id="@+id/main_fragment"
         android:name="com.yhdista.nanodegree.p2.fragments.MainFragment"
         android:layout_width="match_parent"
@@ -19,7 +20,7 @@
         android:layout_gravity="center_horizontal|bottom"
         android:layout_marginLeft="0dp"
         android:layout_marginRight="0dp"
-        android:tag="fragmentMainActivity"
+        android:tag="@string/fragment_main"
         tools:layout="@layout/fragment_main" />
 
 </RelativeLayout>
